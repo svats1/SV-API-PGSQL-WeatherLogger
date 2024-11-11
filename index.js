@@ -44,21 +44,15 @@ app.post("/log-weather/:city", async (req, res) => {
 // Endpoint to get weather history for a city
 app.get("/weather/:city", async (req, res) => {
     try {
-        const { data, error } = await supabase
-            .from("weather_logs")
-            .select("*")
-            .eq("city", req.params.city.toLowerCase())
-            .order("recorded_at", { ascending: false })
-            .limit(10);
+        res.json(await fetchWeatherData(req.params.city));
 
         if (error) throw error;
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        // res.status(500).json({ error: error.message });
     }
 });
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
-    console.log("test2");
 });
