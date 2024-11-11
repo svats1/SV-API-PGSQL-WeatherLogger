@@ -1,6 +1,6 @@
-import express, { json } from 'express';
-import { createClient } from '@supabase/supabase-js';
-import fetch from 'node-fetch';
+import express, { json } from "express";
+import { createClient } from "@supabase/supabase-js";
+import fetch from "node-fetch";
 
 const app = express();
 app.use(json());
@@ -20,18 +20,18 @@ async function fetchWeatherData(city) {
     const data = await response.json();
     return {
         temperature: data.main.temp,
-        city: city.toLowerCase()
+        city: city.toLowerCase(),
     };
 }
 
 // Endpoint to log weather for a city
-app.post('/log-weather/:city', async (req, res) => {
+app.post("/log-weather/:city", async (req, res) => {
     try {
         const city = req.params.city;
         const weatherData = await fetchWeatherData(city);
 
         const { data, error } = await supabase
-            .from('weather_logs')
+            .from("weather_logs")
             .insert([weatherData]);
 
         if (error) throw error;
@@ -42,13 +42,13 @@ app.post('/log-weather/:city', async (req, res) => {
 });
 
 // Endpoint to get weather history for a city
-app.get('/weather/:city', async (req, res) => {
+app.get("/weather/:city", async (req, res) => {
     try {
         const { data, error } = await supabase
-            .from('weather_logs')
-            .select('*')
-            .eq('city', req.params.city.toLowerCase())
-            .order('recorded_at', { ascending: false })
+            .from("weather_logs")
+            .select("*")
+            .eq("city", req.params.city.toLowerCase())
+            .order("recorded_at", { ascending: false })
             .limit(10);
 
         if (error) throw error;
@@ -59,5 +59,6 @@ app.get('/weather/:city', async (req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log('Server running on port 3000');
+    console.log("Server running on port 3000");
+    console.log("test");
 });
