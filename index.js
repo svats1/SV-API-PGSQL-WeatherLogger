@@ -35,7 +35,7 @@ app.post("/log-weather/:city", async (req, res) => {
             .insert([weatherData]);
 
         if (error) throw error;
-        res.json({ success: true, data });
+        res.json({ success: true, data: weatherData });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
