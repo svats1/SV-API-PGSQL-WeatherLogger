@@ -47,7 +47,6 @@ app.get("/weather/:city", async (req, res) => {
         res.json(await fetchWeatherData(req.params.city));
 
         if (error) throw error;
-        res.json(data);
     } catch (error) {
         // res.status(500).json({ error: error.message });
     }
